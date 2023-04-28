@@ -1,39 +1,36 @@
-from collections import Counter
-import math
-
-
 def gap(a, b):
     return abs(a - b)
 
 
-n = int(input())
+T = int(input())
 
-for _ in range(n):
-    k = int(input())
-    s = list(input())  # 초기
-    e = list(input())  # 목표
-    count = 0
+for _ in range(T):
+    n = int(input())
+    start = input()
+    end = input()
 
-    swc = 0  # b여야 하는데 w인 경우
-    sbc = 0  # w여야 하는데 b인 경우
+    answer = 0
 
-    for i in range(k):
-        if s[i] != e[i]:
-            if s[i] == 'W':
-                swc += 1
+    bw = 0  # b여야 하는데 w인 경우
+    wb = 0  # w여야 하는데 b인 경우
+
+    for i in range(n):
+        if start[i] != end[i]:  # 각자 다른 경우를 카운팅
+            if start[i] == 'W':
+                bw += 1
             else:
-                sbc += 1
+                wb += 1
 
-    a = swc + sbc
-    b = gap(swc, sbc)
+    a = bw + wb
+    b = gap(bw, wb)
 
-    count = gap(a, b) // 2  # step 1. 서로 뒤바꾼 경우
+    step1 = gap(a, b) // 2  # step 1. 서로 뒤바꾼 경우 카운트
+    step2 = 0
 
-    count2 = 0
-    for i in range(k):
-        if s[i] != e[i]:
-            count2 += 1  # step2. 그냥 뒤집은 경우
+    for i in range(n):
+        if start[i] != end[i]:
+            step2 += 1  # step2. 그냥 뒤집은 경우 카운트
 
-    count2 -= (count * 2)  # 뒤집은 경우 카운트 해주고 뒤바꾼 경우만큼 빼줘서 진짜 뒤집은 경우 카운팅
+    step2 -= (answer * 2)  # 서로 다른 경우 - (뒤바꾼 경우 * 2) => 그냥 뒤집은 경우
 
-    print(count + count2)
+    print(step1 + step2)
